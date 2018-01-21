@@ -1,49 +1,44 @@
 Django React Chat Example Project
 =================================
 
-An example project using Django React Chat
+An example project showing a chat app with Django Channels, 
+Webpack, React and Docker.
 
-License
-MIT
+## Assumptions
+1. Unix shell commands are given below. 
+   Windows likely will need some work but is left as an exercise to the 
+   user.
 
-Settings
---------
+## Prerequisites
+1. Install Docker for your system so that `docker-compose` and `docker`
+   are available from the command line.   
+2. Install `yarn` package manager. `npm` likely works, too but was
+   not tested.
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+## Installation
+1. `yarn install` - install the javascript packages
+2. `yarn dev` - start generating the webpack bundle
+3. `docker-compose -f local.yml build` - compile the Docker Images,
+   using the docker-compose file at `local.yml`. 
+   - This may take some time, especially if this is the first time you 
+     have used docker with python.
+   - This runs a pip install when compiling the docker image. 
+4. `docker-compose -f local.yml up` - Run the compiled docker images.
+5. configure a postgres client
+   - in pycharm, I use a Postgres Database connection:  
+   - the password is blank
+   - the username and database are both `django_react_chat_example_project`
+   - ![postgres db config](docs/postgres_db_connection_pycharm.png)
+5. run http://localhost:8000/ in your web browser
+   - create two users using the sign up process
+   - using postgres client, open the `django_react_chat_example_project.public.account_emailaddress`
+     table. Set the `verified` bit to true and confirm.
+     - optional: you can also do this from the command line client using 
+       `docker-compose -f local.yml run postgres`, but this is left 
+       as an exercise for the user
 
-Basic Commands
---------------
+## Useful commands
+* `$ docker-compose -f local.yml run django python manage.py migrate`
+  * `./manage.py migrate` is called during `docker-compose -f local.yml up`, 
+    but useful to know anyway
 
-### Setting Up Your Users
-
--   To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
--   To create an **superuser account**, use this command:
-
-        $ python manage.py createsuperuser
-
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
-
-### Test coverage
-
-To run the tests, check your test coverage, and generate an HTML coverage report:
-
-    $ coverage run manage.py test
-    $ coverage html
-    $ open htmlcov/index.html
-
-#### Running tests with py.test
-
-    $ py.test
-
-### Live reloading and Sass CSS compilation
-
-Moved to [Live reloading and SASS compilation](http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html).
-
-Deployment
-----------
-
-The following details how to deploy this application.
-
-### Docker
-
-See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).

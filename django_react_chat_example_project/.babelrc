@@ -1,0 +1,12 @@
+{
+  // This is a good "starter" preset, it is battle tested.
+  // I prefer to not use lots of custom babel settings but instead just use one that's well-used.
+
+  // This particular preset includes https://yarnpkg.com/en/package/babel-preset-env,
+  // which transpiles the ES2017, shimming if the browsers don't have it. Of course, eventually,
+  // all major browsers are eventually getting there.
+
+  // It also includes jsx and Flow (a static type checker: https://flow.org/).
+  // Details here: https://github.com/facebookincubator/create-react-app/tree/master/packages/babel-preset-react-app
+  "presets": ["react-app"]
+}

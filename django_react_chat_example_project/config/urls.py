@@ -1,9 +1,12 @@
+from channels.routing import route
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from django.views.generic import TemplateView
+import channels
+
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
@@ -14,12 +17,17 @@ urlpatterns = [
 
     # User management
     url(r'^users/', include('django_react_chat_example_project.users.urls', namespace='users')),
+    url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
 
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+channel_routing = [
+    # Include sub-routing from an app.
+    channels.include("django_react_chat_example_project.chat.routing.chat_routing", path=r"^/chat"),
+]
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
@@ -32,6 +40,7 @@ if settings.DEBUG:
     ]
     if 'debug_toolbar' in settings.INSTALLED_APPS:
         import debug_toolbar
+
         urlpatterns = [
             url(r'^__debug__/', include(debug_toolbar.urls)),
         ] + urlpatterns

@@ -49,12 +49,15 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'channels',
+    'webpack_loader'
 ]
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
     'django_react_chat_example_project.users.apps.UsersConfig',
+    'django_react_chat_example_project.chat.apps.AdminChatConfig',
     # Your stuff: custom apps go here
 ]
 
@@ -273,3 +276,27 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "config.urls.channel_routing",
+    },
+    # "default": {
+    #     "BACKEND": "asgi_redis.RedisChannelLayer",
+    #     "ROUTING": "config.urls.channel_routing",
+    #     "CONFIG": {
+    #         "hosts": [os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')],
+    #     },
+    #     "TEST_CONFIG": {
+    #         "hosts": [os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379')],
+    #     },
+    # },
+}
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'js/webpack_bundles/', # must end with slash
+        'STATS_FILE': "%s/webpack-stats.json" % ROOT_DIR,
+    }
+}

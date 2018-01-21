@@ -5,12 +5,16 @@ volumes:
   postgres_backup_local: {}
 
 services:
+#  redis:
+#    image: "redis:alpine"
+
   django:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
     depends_on:
       - postgres
+#      - redis
     volumes:
       - .:/app
     environment:
@@ -27,6 +31,8 @@ services:
     volumes:
       - postgres_data_local:/var/lib/postgresql/data
       - postgres_backup_local:/backups
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=django_react_chat_example_project
 

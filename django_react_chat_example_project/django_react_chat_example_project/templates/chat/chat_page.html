@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+
+{% load staticfiles %}
+
+{% block javascript %}
+    <script>
+      window.js_context = {{ js_context|safe }};
+    </script>
+    {% render_bundle 'chat.admin_chat'%}
+{% endblock javascript %}
+
+{% block content %}
+
+  <div class="container">
+    <div id="chat.admin_chat"></div>
+  </div>
+
+{% endblock %}
