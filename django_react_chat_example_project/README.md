@@ -36,6 +36,10 @@ Webpack, React and Docker.
      - optional: you can also do this from the command line client using 
        `docker-compose -f local.yml run postgres`, but this is left 
        as an exercise for the user
+   - go to `http://localhost:8000/chat/` signed in as both users
+   - chat!
+   - ![chat screenshot](docs/chat_example.png)
+   
 
 ## Useful commands
 * `$ docker-compose -f local.yml run django python manage.py migrate`
