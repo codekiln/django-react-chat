@@ -7,17 +7,19 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 import channels
 
+from django_react_chat_example_project.chat.views import ChatView
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
+    url(r'^$', ChatView.as_view(), name='home'),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
 
+    # Chat
+    url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
+
     # User management
     url(r'^users/', include('django_react_chat_example_project.users.urls', namespace='users')),
-    url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here

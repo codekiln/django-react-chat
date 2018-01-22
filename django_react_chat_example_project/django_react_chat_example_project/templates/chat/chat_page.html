@@ -4,16 +4,31 @@
 {% load staticfiles %}
 
 {% block javascript %}
+
+  {% if request.user.is_authenticated %}
+
     <script>
       window.js_context = {{ js_context|safe }};
     </script>
-    {% render_bundle 'chat.admin_chat'%}
+
+    {% render_bundle 'chat.admin_chat' %}
+
+  {% endif %}
+
 {% endblock javascript %}
 
 {% block content %}
 
-  <div class="container">
-    <div id="chat.admin_chat"></div>
-  </div>
+  {% if request.user.is_authenticated %}
+
+    <div class="container">
+      <div id="chat.admin_chat"></div>
+    </div>
+
+  {% else %}
+
+    <p>Please login to continue</p>
+
+  {% endif %}
 
 {% endblock %}
