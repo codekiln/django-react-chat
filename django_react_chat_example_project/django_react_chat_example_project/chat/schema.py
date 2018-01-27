@@ -21,7 +21,7 @@ class UserType(DjangoObjectType):
         model = User
 
 
-class Query(object):
+class ChatQuery(graphene.ObjectType):
     chat_group = graphene.Field(ChatGroupType, id=graphene.Int())
     all_chat_groups = graphene.List(ChatGroupType)
 
@@ -40,3 +40,6 @@ class Query(object):
 
     def resolve_all_users(self, info, **kwargs):
         return User.objects.all()
+
+
+schema = graphene.Schema(query=ChatQuery)

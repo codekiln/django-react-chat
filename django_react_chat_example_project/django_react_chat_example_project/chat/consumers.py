@@ -1,7 +1,7 @@
 from channels.generic.websockets import JsonWebsocketConsumer
 
 from .api_views import ChatUsersViewSet, ChatGroupsViewSet, ChatMessagesViewSet
-
+from .schema import schema
 
 class ChatActions(object):
     GET_CHAT_GROUPS = 'chatGroups'
@@ -56,6 +56,15 @@ class ChatConsumer(JsonWebsocketConsumer):
         print("ws chat receive %s" % self.message.user.id)
 
         serializer_context = DummyRequest(self.message.user).get_context()
+
+        if 'gql' in content:
+            graphql_query = content['gql']
+            result = schema.execute(graphql_query)
+            reply['gql'] = {
+                "data": result.data,
+                "errors": result.errors,
+                "invalid": result.invalid
+            }
 
         if ChatActions.GET_USERS in content:
             users_serializer = ChatUsersViewSet.serializer_class(

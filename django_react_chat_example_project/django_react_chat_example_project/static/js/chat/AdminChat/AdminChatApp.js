@@ -124,7 +124,26 @@ class AdminChatApp extends React.PureComponent {
    * Websockets version of fetchChatUsers
    */
   fetchChatUsers() {
-    this.sendSocketMessage({chatUsers: [], chatGroups: []})
+    this.sendSocketMessage({chatUsers: [], chatGroups: [], gql: `query {
+  allChatGroups {
+   	id 
+    messages {
+    	author {
+    	  id
+    	}
+      id
+      text
+  	}
+  }
+  allUsers {
+    id
+    name
+    username
+    # isCurrentUser
+    # photoUrl
+  }
+}`
+    })
   }
 
   async getUpdatedChatGroupFromServer(group) {
