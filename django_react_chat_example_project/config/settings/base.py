@@ -49,8 +49,9 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
-    'channels',
-    'webpack_loader'
+    'channels', # websocket support for chat
+    'webpack_loader', # react & other js compilation for chat
+    'graphene_django', # GraphQL support for chat
 ]
 
 # Apps specific for this project go here.
@@ -299,4 +300,9 @@ WEBPACK_LOADER = {
         'BUNDLE_DIR_NAME': 'js/webpack_bundles/', # must end with slash
         'STATS_FILE': "%s/webpack-stats.json" % ROOT_DIR,
     }
+}
+
+
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema'
 }

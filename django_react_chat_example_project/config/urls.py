@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 import channels
+from graphene_django.views import GraphQLView
 
 from django_react_chat_example_project.chat.views import ChatView
 
@@ -14,6 +15,8 @@ urlpatterns = [
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
+
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 
     # Chat
     url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
