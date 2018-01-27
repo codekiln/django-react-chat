@@ -11,6 +11,11 @@ class ChatGroupType(DjangoObjectType):
         model = ChatGroup
 
 
+class ChatMessageType(DjangoObjectType):
+    class Meta:
+        model = ChatMessage
+
+
 class UserType(DjangoObjectType):
     class Meta:
         model = User
