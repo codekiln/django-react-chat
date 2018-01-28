@@ -39,14 +39,7 @@ class UserType(IntPkMixin, DjangoObjectType):
         model = User
 
     def resolve_is_current_user(self, info):
-        try:
-            current_user = info.context.get('current_user')
-        except AttributeError:
-            # we're not being called from a websocket but from graphiql interface
-            try:
-                current_user = info.context.user
-            except AttributeError:
-                current_user = None
+        current_user = info.context.user
         if current_user:
             return self.id is current_user.id
         return False

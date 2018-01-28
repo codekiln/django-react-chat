@@ -10,7 +10,7 @@ class ChatActions(object):
     CREATE_MESSAGE = 'createMessage'
 
 
-class DummyRequest(object):
+class ArtificialRequestContext(object):
 
     def __init__(self, user):
         self.user = user
@@ -55,12 +55,13 @@ class ChatConsumer(JsonWebsocketConsumer):
         reply_user_ids = {self.message.user.id}
         print("ws chat receive %s" % self.message.user.id)
 
-        serializer_context = DummyRequest(self.message.user).get_context()
+        request_context = ArtificialRequestContext(self.message.user)
+        serializer_context = request_context.get_context()
 
         if 'gql' in content:
             graphql_query = content['gql']
             result = schema.execute(
-                graphql_query, context_value={"current_user": self.message.user})
+                graphql_query, context_value=request_context)
             reply['gql'] = {
                 "data": result.data,
                 "errors": result.errors,
