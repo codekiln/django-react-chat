@@ -59,7 +59,8 @@ class ChatConsumer(JsonWebsocketConsumer):
 
         if 'gql' in content:
             graphql_query = content['gql']
-            result = schema.execute(graphql_query)
+            result = schema.execute(
+                graphql_query, context_value={"current_user": self.message.user})
             reply['gql'] = {
                 "data": result.data,
                 "errors": result.errors,

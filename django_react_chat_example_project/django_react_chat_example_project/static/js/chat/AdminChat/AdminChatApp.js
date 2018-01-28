@@ -103,7 +103,21 @@ class AdminChatApp extends React.PureComponent {
   onSocketMessage(msg) {
     const result = JSON.parse(msg)
     console.log(`onSocketMessage received: `, result)
-    const {chatUsers, chatGroups, createGroup: createGroupResult, createMessage: createMessageResult} = result
+    const {chatUsers: drfChatUsers, chatGroups: drfChatGroups,
+      createGroup: createGroupResult,
+      createMessage: createMessageResult,
+      gql: {
+        data: {
+          chatGroups: gqlChatGroups,
+          chatUsers: gqlChatUsers
+        }
+      }
+    } = result
+
+    // if graphql responses are availabe, use those, otherwise, use the drf responses
+    const chatUsers = gqlChatUsers ? gqlChatUsers : drfChatUsers
+    const chatGroups = gqlChatGroups ? gqlChatGroups : drfChatGroups
+
     let {currentUser} = this.setChatUsers(chatUsers)
     if (chatGroups) {
       this.setChatGroups(chatGroups,
@@ -125,22 +139,26 @@ class AdminChatApp extends React.PureComponent {
    */
   fetchChatUsers() {
     this.sendSocketMessage({chatUsers: [], chatGroups: [], gql: `query {
-  allChatGroups {
-   	id 
-    messages {
-    	author {
-    	  id
-    	}
+  chatGroups {
+  	id 
+  	messages {
+  		id 
+  		text 
+  		author 
+		}
+    users {
       id
-      text
-  	}
-  }
-  allUsers {
+      isCurrentUser
+      name
+    }
+  	
+	}
+  chatUsers {
     id
     name
     username
-    # isCurrentUser
-    # photoUrl
+    isCurrentUser
+    photoUrl
   }
 }`
     })
