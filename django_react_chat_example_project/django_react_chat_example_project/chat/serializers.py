@@ -130,8 +130,8 @@ class ChatGroupUserSerializer(IsCurrentUserMixin, UserNameMixin, serializers.Mod
 
 
 class ChatGroupReadSerializer(serializers.ModelSerializer):
-    users = ChatGroupUserSerializer(many=True, read_only=True)
     messages = ChatGroupMessageSerializer(many=True, read_only=True)
+    users = ChatGroupUserSerializer(many=True, read_only=True)
 
     class Meta:
         model = ChatGroup

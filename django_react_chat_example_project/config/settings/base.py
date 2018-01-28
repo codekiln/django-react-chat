@@ -295,6 +295,12 @@ CHANNEL_LAYERS = {
     # },
 }
 
+
+# I haven't run into any issues, but the docs mention that this might be necessary in some
+# (unspecified) browsers - https://channels.readthedocs.io/en/latest/deploying.html
+CHANNELS_WS_PROTOCOLS = ["graphql-ws", ]
+
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'js/webpack_bundles/', # must end with slash
