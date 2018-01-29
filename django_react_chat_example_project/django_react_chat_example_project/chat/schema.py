@@ -75,6 +75,7 @@ class CreateMessage(graphene.Mutation):
     formErrors = graphene.String()
     chat_message = graphene.Field(ChatMessageType)
     uuid = graphene.String()
+    notify_user_ids = graphene.List(graphene.Int)
 
     # input types
     class Arguments:
@@ -91,10 +92,18 @@ class CreateMessage(graphene.Mutation):
                 status=400,
                 formErrors=json.dumps(
                     {'text': ['Please enter a message.']}))
+        group = ChatGroup.objects.filter(id=chat_group_id).first()
+        if not group:
+            return CreateMessage(
+                status=400,
+                formErrors=json.dumps(
+                    {'chat_group_id': ['Chat Group Not Found: %s.' % chat_group_id]}))
         obj = ChatMessage.objects.create(
-            author=info.context.user, text=text, chat_group=ChatGroup.objects.get(id=chat_group_id)
+            author=info.context.user, text=text, chat_group=group
         )
-        return CreateMessage(status=200, chat_message=obj, uuid=uuid)
+        notify_user_ids = group.users.values_list('id', flat=True)
+        return CreateMessage(status=200, chat_message=obj, uuid=uuid,
+                             notify_user_ids=notify_user_ids)
 
 
 class CreateGroup(graphene.Mutation):

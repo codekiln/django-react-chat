@@ -236,25 +236,24 @@ class AdminChatApp extends React.PureComponent {
       author
       chatGroup
     }
+    notifyUserIds
   }
 }`
       })
     }
   }
 
-  onCreateMessage(newMessage) {
-    console.log(`onCreateMessage received created message`, newMessage)
+  onCreateMessage(newMessageResponse) {
+    console.log(`onCreateMessage received created message`, newMessageResponse)
     const {groups} = this.state
-    const {uuid: newMessageUuid, chatMessage: {
-      id: newMessageId, chatGroup: chatGroupId}
-    } = newMessage
-    const group = Object.values(groups).find(({id}) => id === chatGroupId)
+    const {uuid: newMessageUuid, chatMessage} = newMessageResponse
+    const group = Object.values(groups).find(({id}) => id === chatMessage.chatGroup)
     const existingGroup = groups[group.clientSideId]
     const existingMessageFound = existingGroup.messages.find(({uuid}) => uuid === newMessageUuid)
     if (existingMessageFound) {
-      existingMessageFound.id = newMessageId
+      existingMessageFound.id = chatMessage.id
     }
-    const newMessages = existingMessageFound ? existingGroup.messages : [...existingGroup.messages, newMessage]
+    const newMessages = existingMessageFound ? existingGroup.messages : [...existingGroup.messages, chatMessage]
 
     this.setState({
       'groups': {
