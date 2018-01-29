@@ -1,10 +1,10 @@
+import json
+
 import graphene
-
 from graphene_django.types import DjangoObjectType
-from graphql.error import GraphQLLocatedError
 
-from .models import ChatGroup, ChatMessage
 from django_react_chat_example_project.users.models import User
+from .models import ChatGroup, ChatMessage
 
 
 class IntPkMixin(object):
@@ -22,12 +22,16 @@ class ChatGroupType(IntPkMixin, DjangoObjectType):
 
 class ChatMessageType(IntPkMixin, DjangoObjectType):
     author = graphene.Int()
+    chat_group = graphene.Int()
 
     class Meta:
         model = ChatMessage
 
     def resolve_author(self, info):
         return self.author_id
+
+    def resolve_chat_group(self, info):
+        return self.chat_group_id
 
 
 class UserType(IntPkMixin, DjangoObjectType):
@@ -39,14 +43,7 @@ class UserType(IntPkMixin, DjangoObjectType):
         model = User
 
     def resolve_is_current_user(self, info):
-        try:
-            current_user = info.context.get('current_user')
-        except AttributeError:
-            # we're not being called from a websocket but from graphiql interface
-            try:
-                current_user = info.context.user
-            except AttributeError:
-                current_user = None
+        current_user = info.context.user
         if current_user:
             return self.id is current_user.id
         return False
@@ -72,6 +69,75 @@ class UserType(IntPkMixin, DjangoObjectType):
         return "User %s" % self.id
 
 
+class CreateMessage(graphene.Mutation):
+    # return types
+    status = graphene.Int()
+    formErrors = graphene.String()
+    chat_message = graphene.Field(ChatMessageType)
+    uuid = graphene.String()
+    notify_user_ids = graphene.List(graphene.Int)
+
+    # input types
+    class Arguments:
+        text = graphene.String()
+        chat_group_id = graphene.Int()
+        uuid = graphene.String()
+
+    # the mutating function, with Arguments' input types coming after info
+    def mutate(root, info, text, chat_group_id, uuid):
+        if not info.context.user.is_authenticated():
+            return CreateMessage(status=403)
+        if not text:
+            return CreateMessage(
+                status=400,
+                formErrors=json.dumps(
+                    {'text': ['Please enter a message.']}))
+        group = ChatGroup.objects.filter(id=chat_group_id).first()
+        if not group:
+            return CreateMessage(
+                status=400,
+                formErrors=json.dumps(
+                    {'chat_group_id': ['Chat Group Not Found: %s.' % chat_group_id]}))
+        obj = ChatMessage.objects.create(
+            author=info.context.user, text=text, chat_group=group
+        )
+        notify_user_ids = group.users.values_list('id', flat=True)
+        return CreateMessage(status=200, chat_message=obj, uuid=uuid,
+                             notify_user_ids=notify_user_ids)
+
+
+class CreateGroup(graphene.Mutation):
+    # return types
+    status = graphene.Int()
+    formErrors = graphene.String()
+    chat_group = graphene.Field(ChatGroupType)
+
+    # input types
+    class Arguments:
+        user_id = graphene.Int()
+
+    # the mutating function, with Arguments' input types coming after info
+    def mutate(root, info, user_id):
+        if not info.context.user.is_authenticated():
+            return CreateGroup(status=403)
+        if not user_id:
+            return CreateGroup(
+                status=400,
+                formErrors=json.dumps(
+                    {'user_id': ['Please enter a user id.']}))
+        user = User.objects.filter(id__in=[user_id]).first()
+        if not user:
+            return CreateGroup(status=400, formErrors=json.dumps(
+                {'user_id': ['User id %s not found.' % user.id]}))
+        group = ChatGroup.objects.filter(users=user).filter(users=info.context.user).first()
+        if not group:
+            group = ChatGroup.objects.create()
+            group.save()
+            group.users = [user, info.context.user]
+            group.save()
+        return CreateGroup(status=200, chat_group=group)
+
+
 class ChatQuery(graphene.ObjectType):
     chat_group = graphene.Field(ChatGroupType, id=graphene.Int())
     chat_groups = graphene.List(ChatGroupType)
@@ -93,4 +159,9 @@ class ChatQuery(graphene.ObjectType):
         return User.objects.all()
 
 
-schema = graphene.Schema(query=ChatQuery)
+class ChatMutation(graphene.ObjectType):
+    create_message = CreateMessage.Field()
+    create_group = CreateGroup.Field()
+
+
+schema = graphene.Schema(query=ChatQuery, mutation=ChatMutation)

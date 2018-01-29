@@ -10,7 +10,7 @@ class ChatActions(object):
     CREATE_MESSAGE = 'createMessage'
 
 
-class DummyRequest(object):
+class ArtificialRequestContext(object):
 
     def __init__(self, user):
         self.user = user
@@ -55,17 +55,24 @@ class ChatConsumer(JsonWebsocketConsumer):
         reply_user_ids = {self.message.user.id}
         print("ws chat receive %s" % self.message.user.id)
 
-        serializer_context = DummyRequest(self.message.user).get_context()
+        request_context = ArtificialRequestContext(self.message.user)
+        serializer_context = request_context.get_context()
 
         if 'gql' in content:
             graphql_query = content['gql']
             result = schema.execute(
-                graphql_query, context_value={"current_user": self.message.user})
+                graphql_query, context_value=request_context)
             reply['gql'] = {
                 "data": result.data,
                 "errors": result.errors,
                 "invalid": result.invalid
             }
+            if result.data:
+                # TODO: use graphql subscriptions instead of manual channels notifications
+                if 'createMessage' in result.data:
+                    notify_user_ids = result.data['createMessage'].get('notifyUserIds', None)
+                    if notify_user_ids:
+                        reply_user_ids = notify_user_ids
 
         if ChatActions.GET_USERS in content:
             users_serializer = ChatUsersViewSet.serializer_class(
