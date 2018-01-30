@@ -111,6 +111,7 @@ class CreateGroup(graphene.Mutation):
     status = graphene.Int()
     formErrors = graphene.String()
     chat_group = graphene.Field(ChatGroupType)
+    notify_user_ids = graphene.List(graphene.Int)
 
     # input types
     class Arguments:
@@ -130,12 +131,15 @@ class CreateGroup(graphene.Mutation):
             return CreateGroup(status=400, formErrors=json.dumps(
                 {'user_id': ['User id %s not found.' % user.id]}))
         group = ChatGroup.objects.filter(users=user).filter(users=info.context.user).first()
+        group_users = [user, info.context.user]
         if not group:
             group = ChatGroup.objects.create()
             group.save()
-            group.users = [user, info.context.user]
+            group.users = group_users
             group.save()
-        return CreateGroup(status=200, chat_group=group)
+        return CreateGroup(
+            status=200, chat_group=group,
+            notify_user_ids=[u.id for u in group_users])
 
 
 class ChatQuery(graphene.ObjectType):

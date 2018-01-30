@@ -69,10 +69,12 @@ class ChatConsumer(JsonWebsocketConsumer):
             }
             if result.data:
                 # TODO: use graphql subscriptions instead of manual channels notifications
-                if 'createMessage' in result.data:
-                    notify_user_ids = result.data['createMessage'].get('notifyUserIds', None)
-                    if notify_user_ids:
-                        reply_user_ids = notify_user_ids
+                notify_user_ids = set([])
+                for notify_key in ['createMessage', 'createGroup']:
+                    if notify_key in result.data:
+                        notify_user_ids |= set(result.data[notify_key].get('notifyUserIds', []))
+                if notify_user_ids:
+                    reply_user_ids = list(notify_user_ids)
 
         if ChatActions.GET_USERS in content:
             users_serializer = ChatUsersViewSet.serializer_class(
