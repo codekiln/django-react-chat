@@ -155,18 +155,6 @@ class AdminChatApp extends React.PureComponent {
     })
   }
 
-  async getUpdatedChatGroupFromServer(group) {
-    const {id: groupId} = group
-    const url = groupId ? `${this.props.chatGroupsUrl}${groupId}/` : this.props.chatGroupsUrl
-    const method = groupId ? 'GET' : 'POST'
-    // noinspection UnnecessaryLocalVariableJS
-    const serverChatGroup = {
-      ...group,
-      ...await $.ajax({...AdminChatApp.ajaxSettings, url, method})
-    }
-    return serverChatGroup
-  }
-
   requestCreateGroup(group) {
     const {currentUserId} = this.state
     const otherUser = group.users.find(({id}) => id !== currentUserId)
