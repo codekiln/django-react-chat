@@ -1,8 +1,7 @@
 import json
 
-from django.views.generic import TemplateView
-from rest_framework.reverse import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 
 class JsContextMixin(object):

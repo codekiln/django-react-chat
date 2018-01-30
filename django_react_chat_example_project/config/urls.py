@@ -30,7 +30,7 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 channel_routing = [
-    # Include sub-routing from an app.
+    # Include sub-routing from apps
     channels.include("django_react_chat_example_project.chat.routing.chat_routing", path=r"^/chat"),
 ]
 

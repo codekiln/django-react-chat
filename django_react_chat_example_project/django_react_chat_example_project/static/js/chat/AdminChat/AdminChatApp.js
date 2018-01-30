@@ -2,7 +2,7 @@ import './AdminChatStyle.scss';
 import React from 'react'
 import ReactDOM from 'react-dom'
 import AdminChatGroupSelector from './Containers/AdminChatGroupSelector'
-import PropTypes, { instanceOf } from 'prop-types'
+import { instanceOf } from 'prop-types'
 import AdminChatConversation from './Components/AdminChatConversation'
 import sortBy from 'lodash.sortby'
 import Websocket from 'react-websocket'
@@ -10,16 +10,6 @@ import uuidv4 from 'uuid/v4'
 
 
 class AdminChatApp extends React.PureComponent {
-
-  static ajaxSettings = {
-    contentType: 'application/json; charset=utf-8',
-    dataType: 'json',
-    method: 'GET',
-  }
-
-  static propTypes = {
-    getCurrentUsersUrl: PropTypes.string
-  };
 
   static getChatGroupIdentifier(userIds) {
     return userIds.sort().join('-')
@@ -103,15 +93,32 @@ class AdminChatApp extends React.PureComponent {
   onSocketMessage(msg) {
     const result = JSON.parse(msg)
     console.log(`onSocketMessage received: `, result)
-    const {chatUsers, chatGroups, createGroup: createGroupResult, createMessage: createMessageResult} = result
-    let {currentUser} = this.setChatUsers(chatUsers)
-    if (chatGroups) {
-      this.setChatGroups(chatGroups,
-        chatUsers ? chatUsers : this.state.users,
+    const {
+      gql: {
+        data: {
+          chatGroups: gqlChatGroups,
+          chatUsers: gqlChatUsers,
+          createMessage: gqlCreateMessage,
+          createGroup: gqlCreateGroup
+        }
+      }
+    } = result
+
+    let {currentUser} = this.setChatUsers(gqlChatUsers)
+
+    if (gqlChatGroups) {
+      this.setChatGroups(gqlChatGroups,
+        gqlChatUsers ? gqlChatUsers : this.state.users,
         currentUser ? currentUser : this.state.currentUser)
     }
-    if (createGroupResult) this.onCreateGroup(createGroupResult)
-    if (createMessageResult) this.onCreateMessage(createMessageResult)
+
+    if (gqlCreateGroup) {
+      this.onCreateGroup(gqlCreateGroup)
+    }
+
+    if (gqlCreateMessage) {
+      this.onCreateMessage(gqlCreateMessage)
+    }
   }
 
   sendSocketMessage(message) {
@@ -120,52 +127,87 @@ class AdminChatApp extends React.PureComponent {
     socket.state.ws.send(JSON.stringify(message))
   }
 
-  /*
-   * Websockets version of fetchChatUsers
-   */
   fetchChatUsers() {
-    this.sendSocketMessage({chatUsers: [], chatGroups: []})
-  }
-
-  async getUpdatedChatGroupFromServer(group) {
-    const {id: groupId} = group
-    const url = groupId ? `${this.props.chatGroupsUrl}${groupId}/` : this.props.chatGroupsUrl
-    const method = groupId ? 'GET' : 'POST'
-    // noinspection UnnecessaryLocalVariableJS
-    const serverChatGroup = {
-      ...group,
-      ...await $.ajax({...AdminChatApp.ajaxSettings, url, method})
+    this.sendSocketMessage({
+      chatUsers: [], chatGroups: [], gql: `query {
+  chatGroups {
+  	id 
+  	messages {
+  		id 
+  		text 
+  		author 
+		}
+    users {
+      id
+      isCurrentUser
+      name
     }
-    return serverChatGroup
+  	
+	}
+  chatUsers {
+    id
+    name
+    username
+    isCurrentUser
+    photoUrl
+  }
+}`
+    })
   }
 
   requestCreateGroup(group) {
-    const userIds = group.users.map(({id}) => id)
-    this.sendSocketMessage({createGroup: {users: userIds}})
+    const {currentUserId} = this.state
+    const otherUser = group.users.find(({id}) => id !== currentUserId)
+
+    this.sendSocketMessage({
+      gql: `mutation {
+  createGroup(userId: ${otherUser.id}) {
+    status
+    formErrors
+    chatGroup {
+      id
+      users {
+        id
+        username
+      }
+    }
+    notifyUserIds
+  }
+}
+    `
+    })
+
   }
 
-  onCreateGroup(group) {
-    console.log(`onCreateGroup received created group`, group)
+  onCreateGroup(groupResponse) {
+    console.log(`onCreateGroup received created group`, groupResponse)
+    if (groupResponse.status !== 200) {
+      console.log(`onCreateGroup detected group creation failure: ${groupResponse.formErrors}`)
+      return
+    }
     const {groups} = this.state
-    const clientSideId = AdminChatApp.getChatGroupIdentifier(group.users)
+    const {chatGroup: newServerGroup} = groupResponse
+    const groupUserIds = newServerGroup.users.map(({id}) => id)
+    const clientSideId = AdminChatApp.getChatGroupIdentifier(groupUserIds)
     const existingGroup = groups[clientSideId]
-    const newGroup = {
+    const newClientGroup = {
       ...existingGroup,
-      id: group.id
+      id: newServerGroup.id
     }
     this.setState({
       'groups': {
         ...groups,
-        [clientSideId]: newGroup
+        [clientSideId]: newClientGroup
       }
     })
 
-    // we create a  new group with a message
-    // search the existing group for unsent messages and send them
+    // we create a new group with a message stored locally
+    // so search for the existing group with the unsent message(s) and send them
+    // now that we have the new group
     const unsentMessages = existingGroup.messages.filter(({id}) => !id)
     if (unsentMessages) {
       for (const unsentMessage of unsentMessages) {
-        this.requestCreateMessage(unsentMessage.text, newGroup, unsentMessage.uuid)
+        this.requestCreateMessage(unsentMessage.text, newClientGroup, unsentMessage.uuid)
       }
     }
   }
@@ -173,21 +215,47 @@ class AdminChatApp extends React.PureComponent {
   requestCreateMessage(text, group, newUuid) {
     const {id: groupId} = group
     if (groupId) {
-      this.sendSocketMessage({createMessage: {text, chat_group: groupId, uuid: newUuid}})
+      this.sendSocketMessage({
+        gql: `mutation {
+  createMessage(uuid: "${newUuid}", text: "${text}", chatGroupId: ${groupId}) {
+    uuid
+    status
+    formErrors
+    chatMessage {
+      id
+      text
+      author
+      chatGroup
+    }
+    notifyUserIds
+  }
+}`
+      })
     }
   }
 
-  onCreateMessage(newMessage) {
-    console.log(`onCreateMessage received created message`, newMessage)
-    const {groups} = this.state
-    const {chat_group: chatGroupId, uuid: newMessageUuid, id: newMessageId} = newMessage
-    const group = Object.values(groups).find(({id}) => id === chatGroupId)
-    const existingGroup = groups[group.clientSideId]
-    const existingMessageFound = existingGroup.messages.find(({uuid}) => uuid === newMessage.uuid)
-    if (existingMessageFound) {
-      existingMessageFound.id = newMessageId
+  onCreateMessage(newMessageResponse) {
+    console.log(`onCreateMessage received created message`, newMessageResponse)
+    const {groups, currentUser} = this.state
+    const {uuid: newMessageUuid, chatMessage} = newMessageResponse
+    let group = Object.values(groups).find(({id}) => id === chatMessage.chatGroup)
+    let existingGroup = null
+    if (group === undefined) {
+      const groupUserIds = [chatMessage.author, currentUser.id]
+      const clientSideId = AdminChatApp.getChatGroupIdentifier(groupUserIds)
+      existingGroup = groups[clientSideId]
+    } else {
+      existingGroup = groups[group.clientSideId]
     }
-    const newMessages = existingMessageFound ? existingGroup.messages : [...existingGroup.messages, newMessage]
+    if (!existingGroup) {
+      console.warn(`onCreateMessage received message from unknown user`,
+        newMessageResponse)
+    }
+    const existingMessageFound = existingGroup.messages.find(({uuid}) => uuid === newMessageUuid)
+    if (existingMessageFound) {
+      existingMessageFound.id = chatMessage.id
+    }
+    const newMessages = existingMessageFound ? existingGroup.messages : [...existingGroup.messages, chatMessage]
 
     this.setState({
       'groups': {
