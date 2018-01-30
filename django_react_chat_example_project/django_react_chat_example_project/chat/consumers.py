@@ -1,13 +1,6 @@
 from channels.generic.websockets import JsonWebsocketConsumer
 
-from .api_views import ChatUsersViewSet, ChatGroupsViewSet, ChatMessagesViewSet
 from .schema import schema
-
-class ChatActions(object):
-    GET_CHAT_GROUPS = 'chatGroups'
-    GET_USERS = 'chatUsers'
-    CREATE_GROUP = 'createGroup'
-    CREATE_MESSAGE = 'createMessage'
 
 
 class ArtificialRequestContext(object):
@@ -56,7 +49,6 @@ class ChatConsumer(JsonWebsocketConsumer):
         print("ws chat receive %s" % self.message.user.id)
 
         request_context = ArtificialRequestContext(self.message.user)
-        serializer_context = request_context.get_context()
 
         if 'gql' in content:
             graphql_query = content['gql']
@@ -75,37 +67,6 @@ class ChatConsumer(JsonWebsocketConsumer):
                         notify_user_ids |= set(result.data[notify_key].get('notifyUserIds', []))
                 if notify_user_ids:
                     reply_user_ids = list(notify_user_ids)
-
-        if ChatActions.GET_USERS in content:
-            users_serializer = ChatUsersViewSet.serializer_class(
-                ChatUsersViewSet.queryset, many=True, context=serializer_context)
-            reply[ChatActions.GET_USERS] = users_serializer.data
-
-        if ChatActions.GET_CHAT_GROUPS in content:
-            qs = ChatGroupsViewSet.queryset
-            chat_groups_serializer = ChatGroupsViewSet.serializer_class(
-                qs.filter(users=self.message.user), many=True, context=serializer_context)
-            reply[ChatActions.GET_CHAT_GROUPS] = chat_groups_serializer.data
-
-        if ChatActions.CREATE_GROUP in content:
-            serializer_args = content[ChatActions.CREATE_GROUP]
-            chat_groups_serializer = ChatGroupsViewSet.serializer_create_class(
-                data=serializer_args, context=serializer_context)
-            if chat_groups_serializer.is_valid():
-                chat_groups_serializer.save()
-                reply[ChatActions.CREATE_GROUP] = chat_groups_serializer.data
-
-        if ChatActions.CREATE_MESSAGE in content:
-            serializer_args = content[ChatActions.CREATE_MESSAGE]
-            message_uuid = serializer_args.pop('uuid', '')
-            chat_create_message_serializer = ChatMessagesViewSet.serializer_create_class(
-                data=serializer_args, context=serializer_context)
-            if chat_create_message_serializer.is_valid():
-                chat_create_message_serializer.save()
-                chat_group = chat_create_message_serializer.instance.chat_group
-                reply_user_ids |= {u.id for u in chat_group.users.all()}
-                reply[ChatActions.CREATE_MESSAGE] = chat_create_message_serializer.data
-                reply[ChatActions.CREATE_MESSAGE]['uuid'] = message_uuid
 
         if reply:
             user_ids = list(reply_user_ids)
