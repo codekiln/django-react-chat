@@ -58,7 +58,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # custom users app
     'django_react_chat_example_project.users.apps.UsersConfig',
-    'django_react_chat_example_project.chat.apps.AdminChatConfig',
+    'django_react_chat_example_project.chat.apps.ChatConfig',
     # Your stuff: custom apps go here
 ]
 

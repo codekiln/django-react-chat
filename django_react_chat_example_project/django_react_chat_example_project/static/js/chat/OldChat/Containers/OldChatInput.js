@@ -4,7 +4,7 @@ import faPaperPlane from '@fortawesome/fontawesome-free-solid/faPaperPlane'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 
-class AdminChatInput extends React.PureComponent {
+class OldChatInput extends React.PureComponent {
 
   constructor(props) {
     super(props)
@@ -39,4 +39,4 @@ class AdminChatInput extends React.PureComponent {
   }
 }
 
-export default AdminChatInput
+export default OldChatInput

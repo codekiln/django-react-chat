@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class AdminChatConfig(AppConfig):
+class ChatConfig(AppConfig):
     name = 'django_react_chat_example_project.chat'
     verbose_name = "Chat"
 
