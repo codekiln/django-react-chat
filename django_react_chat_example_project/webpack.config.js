@@ -41,7 +41,7 @@ module.exports = [{
 
     // One entry here for every bundle for webpack to generate.
     // Format: 'bundle_identity_name': '/path/to/source/js/without/.js/suffix'
-    'chat.admin_chat': './django_react_chat_example_project/static/js/chat/AdminChat/AdminChatApp'
+    'chat.old_chat': './django_react_chat_example_project/static/js/chat/OldChat/OldChatApp'
 
   },
 

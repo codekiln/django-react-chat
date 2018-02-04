@@ -4,6 +4,12 @@ Django React Chat Example Project
 An example project showing a chat app with Django Channels, 
 Webpack, React and Docker.
 
+## Status: 
+You are on the development branch for the [Web Reason Apollo](https://github.com/codekiln/django-react-chat/milestone/2)
+milestone, which is in development. For the stable version of the app,
+please check out `master`. NOTE: the old version of the app is still
+available by logging in and clicking on `Old Chat App` in the header.
+
 
 ## Assumptions
 1. Unix shell commands are given below. 

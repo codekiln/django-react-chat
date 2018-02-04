@@ -1,15 +1,15 @@
-import './AdminChatStyle.scss';
+import './OldChatStyle.scss';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AdminChatGroupSelector from './Containers/AdminChatGroupSelector'
+import OldChatGroupSelector from './Containers/OldChatGroupSelector'
 import { instanceOf } from 'prop-types'
-import AdminChatConversation from './Components/AdminChatConversation'
+import OldChatConversation from './Components/OldChatConversation'
 import sortBy from 'lodash.sortby'
 import Websocket from 'react-websocket'
 import uuidv4 from 'uuid/v4'
 
 
-class AdminChatApp extends React.PureComponent {
+class OldChatApp extends React.PureComponent {
 
   static getChatGroupIdentifier(userIds) {
     return userIds.sort().join('-')
@@ -61,17 +61,17 @@ class AdminChatApp extends React.PureComponent {
   render() {
     const {users, currentUser, groups, selectedGroupClientSideId: groupId} = this.state
     const selectedGroup = groupId && groups.hasOwnProperty(groupId) && groups[groupId]
-    const sortedGroups = AdminChatApp.getSortedGroups(groups)
+    const sortedGroups = OldChatApp.getSortedGroups(groups)
 
-    return <div id="adminchat-container">
-      <div id="adminchat-frame">
-        <AdminChatGroupSelector users={users} currentUser={currentUser} groups={sortedGroups}
+    return <div id="oldChat-container">
+      <div id="oldChat-frame">
+        <OldChatGroupSelector users={users} currentUser={currentUser} groups={sortedGroups}
                                 activeGroupId={groupId}
                                 onSelectChatGroup={this.onSelectChatGroup}/>
-        <AdminChatConversation group={selectedGroup} users={users} currentUser={currentUser}
+        <OldChatConversation group={selectedGroup} users={users} currentUser={currentUser}
                                sendMessage={this.queueNewMessage}/>
         <Websocket ref="socket" url={this.props.chatWebsocketEndpoint} onOpen={this.onSocketOpen}
-                   onClose={AdminChatApp.onSocketClose} onMessage={this.onSocketMessage} reconnect={true}/>
+                   onClose={OldChatApp.onSocketClose} onMessage={this.onSocketMessage} reconnect={true}/>
 
       </div>
     </div>
@@ -82,12 +82,12 @@ class AdminChatApp extends React.PureComponent {
   }
 
   onSocketOpen(obj) {
-    console.log('AdminChatApp: websocket opened')
+    console.log('OldChatApp: websocket opened')
     this.fetchChatUsers()
   }
 
   static onSocketClose(obj) {
-    console.log('AdminChatApp: websocket closed')
+    console.log('OldChatApp: websocket closed')
   }
 
   onSocketMessage(msg) {
@@ -188,7 +188,7 @@ class AdminChatApp extends React.PureComponent {
     const {groups} = this.state
     const {chatGroup: newServerGroup} = groupResponse
     const groupUserIds = newServerGroup.users.map(({id}) => id)
-    const clientSideId = AdminChatApp.getChatGroupIdentifier(groupUserIds)
+    const clientSideId = OldChatApp.getChatGroupIdentifier(groupUserIds)
     const existingGroup = groups[clientSideId]
     const newClientGroup = {
       ...existingGroup,
@@ -242,7 +242,7 @@ class AdminChatApp extends React.PureComponent {
     let existingGroup = null
     if (group === undefined) {
       const groupUserIds = [chatMessage.author, currentUser.id]
-      const clientSideId = AdminChatApp.getChatGroupIdentifier(groupUserIds)
+      const clientSideId = OldChatApp.getChatGroupIdentifier(groupUserIds)
       existingGroup = groups[clientSideId]
     } else {
       existingGroup = groups[group.clientSideId]
@@ -328,7 +328,7 @@ class AdminChatApp extends React.PureComponent {
     // create a client side "stub" group for each user we can chat with
     // this will be created on the server upon sending the first message
     for (const otherUser of usersArray) {
-      const newUserGroupIdentifier = AdminChatApp.getChatGroupIdentifier([otherUser.id, currentUser.id])
+      const newUserGroupIdentifier = OldChatApp.getChatGroupIdentifier([otherUser.id, currentUser.id])
       clientSideGroups[newUserGroupIdentifier] = {
         clientSideId: newUserGroupIdentifier,
         messages: [],
@@ -342,8 +342,8 @@ class AdminChatApp extends React.PureComponent {
     // if server side groups exist, overwrite the client side "stub" groups for each user
     for (const group of groupsArray) {
       const otherUsers = group.users.filter(({id}) => id !== currentUser.id)
-      const clientSideId = AdminChatApp.getChatGroupIdentifier(group.users.map(({id}) => id))
-      const displayName = AdminChatApp.getChatGroupDisplayName(group)
+      const clientSideId = OldChatApp.getChatGroupIdentifier(group.users.map(({id}) => id))
+      const displayName = OldChatApp.getChatGroupDisplayName(group)
       const groupWithClientSideId = {
         ...group, clientSideId, displayName, otherUsers,
         selected: clientSideId === selectedClientSideId
@@ -358,9 +358,9 @@ class AdminChatApp extends React.PureComponent {
       ? clientSideGroups[selectedClientSideId]
       : Object.keys(serverGroups).length
         // otherwise, use the first existing server-side group if it exists.
-        ? AdminChatApp.getSortedGroups(serverGroups)[0]
+        ? OldChatApp.getSortedGroups(serverGroups)[0]
         // otherwise, use the first client side user "stub" group, i.e. the first user we haven't chatted with before.
-        : AdminChatApp.getSortedGroups(clientSideGroups)[0]
+        : OldChatApp.getSortedGroups(clientSideGroups)[0]
 
     this.setState({
       groups: clientSideGroups,
@@ -371,11 +371,11 @@ class AdminChatApp extends React.PureComponent {
 
 // TODO: use react prop types to define component prop dependencies
 
-const webpackBundleName = 'chat.admin_chat'
+const webpackBundleName = 'chat.old_chat'
 const context = window.js_context[webpackBundleName]
 const domNode = document.getElementById(webpackBundleName)
 
 ReactDOM.render(
-  <AdminChatApp {...context}/>
+  <OldChatApp {...context}/>
   , domNode)
 

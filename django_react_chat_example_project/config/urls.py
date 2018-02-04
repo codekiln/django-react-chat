@@ -1,33 +1,31 @@
-from channels.routing import route
+import channels
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
-import channels
 from graphene_django.views import GraphQLView
 
 from django_react_chat_example_project.chat.views import ChatView
 
 urlpatterns = [
-    url(r'^$', ChatView.as_view(), name='home'),
+                  url(r'^$', ChatView.as_view(), name='home'),
 
-    # Django Admin, use {% url 'admin:index' %}
-    url(settings.ADMIN_URL, admin.site.urls),
+                  # Django Admin, use {% url 'admin:index' %}
+                  url(settings.ADMIN_URL, admin.site.urls),
 
-    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+                  url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 
-    # Chat
-    url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
+                  # Chat
+                  url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
 
-    # User management
-    url(r'^users/', include('django_react_chat_example_project.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
+                  # User management
+                  url(r'^users/', include('django_react_chat_example_project.users.urls', namespace='users')),
+                  url(r'^accounts/', include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
+                  # Your stuff: custom urls includes go here
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 channel_routing = [
     # Include sub-routing from apps
@@ -47,5 +45,5 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [
-            url(r'^__debug__/', include(debug_toolbar.urls)),
-        ] + urlpatterns
+                          url(r'^__debug__/', include(debug_toolbar.urls)),
+                      ] + urlpatterns

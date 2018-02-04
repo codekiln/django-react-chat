@@ -46,14 +46,14 @@
     "@fortawesome/react-fontawesome": "^0.0.17",
     "babel-preset-react-app": "^3.1.0",
     "cross-env": "^5.1.1",
-    "css-loader": "^0.28.7",
+    "css-loader": "^0.28.9",
     "lodash.sortby": "^4.7.0",
     "node-sass": "^4.7.2",
     "react-avatar": "^2.5.1",
     "react-dom": "^16.2.0",
     "react-websocket": "^2.0.0",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0",
+    "style-loader": "^0.20.1",
     "uuid": "^3.1.0"
   }
 }

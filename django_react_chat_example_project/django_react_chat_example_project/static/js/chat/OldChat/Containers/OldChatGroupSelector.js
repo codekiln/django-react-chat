@@ -1,7 +1,7 @@
 import React from 'react'
-import AdminChatContact from '../Components/AdminChatContact'
+import OldChatContact from '../Components/OldChatContact'
 
-class AdminChatGroupSelector extends React.PureComponent {
+class OldChatGroupSelector extends React.PureComponent {
 
   constructor(props) {
     super(props)
@@ -29,7 +29,7 @@ class AdminChatGroupSelector extends React.PureComponent {
       const isSelected = this.props.activeGroupId === group.clientSideId
       return <li key={user.id} className="contact"
                  onClick={this.props.onSelectChatGroup.bind(null, group)}>
-        <AdminChatContact {...user} active={isSelected}/>
+        <OldChatContact {...user} active={isSelected}/>
       </li>
     }
   }
@@ -43,12 +43,12 @@ class AdminChatGroupSelector extends React.PureComponent {
     return <div id="sidepanel">
 
       <div id="profile">
-        <AdminChatContact online={true} {...currentUser} isCurrentUser/>
+        <OldChatContact online={true} {...currentUser} isCurrentUser/>
       </div>
 
-      <div id="adminchat-search">
-        <label htmlFor="adminchat-search-input"><i className="fa fa-search" aria-hidden="true"/></label>
-        <input id="adminchat-search-input" type="text" placeholder="Search contacts..."
+      <div id="oldChat-search">
+        <label htmlFor="oldChat-search-input"><i className="fa fa-search" aria-hidden="true"/></label>
+        <input id="oldChat-search-input" type="text" placeholder="Search contacts..."
                value={this.state.searchFor} onChange={this.onSearchFor}/>
       </div>
 
@@ -63,4 +63,4 @@ class AdminChatGroupSelector extends React.PureComponent {
 
 }
 
-export default AdminChatGroupSelector;
+export default OldChatGroupSelector;
