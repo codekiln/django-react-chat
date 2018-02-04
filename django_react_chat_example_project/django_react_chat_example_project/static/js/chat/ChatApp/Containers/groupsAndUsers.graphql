@@ -1,0 +1,22 @@
+query {
+    chatGroups {
+        id
+        messages {
+            id
+            text
+            author
+        }
+        users {
+            id
+            isCurrentUser
+            name
+        }
+    }
+    chatUsers {
+        id
+        name
+        username
+        isCurrentUser
+        photoUrl
+    }
+}

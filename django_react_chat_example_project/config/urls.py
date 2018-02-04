@@ -4,9 +4,11 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
+from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
 from django_react_chat_example_project.chat.views import ChatView
+from django_react_chat_example_project.chat.schema import schema
 
 urlpatterns = [
                   url(r'^$', ChatView.as_view(), name='home'),
@@ -14,7 +16,9 @@ urlpatterns = [
                   # Django Admin, use {% url 'admin:index' %}
                   url(settings.ADMIN_URL, admin.site.urls),
 
-                  url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+                  url(r'^gql_batched', csrf_exempt(GraphQLView.as_view(schema=schema, batch=True)), name="gql_batched"),
+                  url(r'^graphql', GraphQLView.as_view(schema=schema, graphiql=True), name="graphiql"),
+                  url(r'^gql', csrf_exempt(GraphQLView.as_view(schema=schema, batch=False)), name="gql"),
 
                   # Chat
                   url(r'^chat/', include('django_react_chat_example_project.chat.urls', namespace='chat')),
