@@ -10,11 +10,11 @@
  * anything, please update the comment.
  ********************************************************************/
 
-// webpack runs in node.js
-// this top section in nodejs is where modules use the `require()` call
+  // webpack runs in node.js
+  // this top section in nodejs is where modules use the `require()` call
   // to bring in any dependencies from node's core modules or `node_modules/` package path:
 
-// this is the node built-in path module: https://nodejs.org/api/path.html
+  // this is the node built-in path module: https://nodejs.org/api/path.html
 const path = require('path');
 
 // this is the webpack object, which is configured below.
@@ -41,7 +41,8 @@ module.exports = [{
 
     // One entry here for every bundle for webpack to generate.
     // Format: 'bundle_identity_name': '/path/to/source/js/without/.js/suffix'
-    'chat.old_chat': './django_react_chat_example_project/static/js/chat/OldChat/OldChatApp'
+    'chat.chat_app': './django_react_chat_example_project/static/js/chat/ChatApp/ChatApp',
+    'chat.old_chat': './django_react_chat_example_project/static/js/chat/OldChat/OldChatApp',
 
   },
 
@@ -118,7 +119,12 @@ module.exports = [{
             loader: 'sass-loader' // compiles Sass to CSS
           }
         ]
-      }
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
+      },
     ]
   },
 

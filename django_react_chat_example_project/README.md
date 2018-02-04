@@ -25,7 +25,10 @@ available by logging in and clicking on `Old Chat App` in the header.
 
 
 ## Installation
-1. `yarn install` - install the javascript packages
+1. `yarn install --ignore-engines` - install the javascript packages
+   * why `--ignore-engines`? because of 
+     [this issue with `react-avatar` for the OLD chat app](https://github.com/Sitebase/react-avatar/issues/78)
+   * TODO: remove `--ignore-engines` after removing old chat app
 2. `yarn dev` - start generating the webpack bundle
 3. `docker-compose -f local.yml build` - compile the Docker Images,
    using the docker-compose file at `local.yml`. 

@@ -54,7 +54,7 @@ class ChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
         context = super(ChatView, self).get_context_data(**kwargs)
         js_context = {
             # named after the webpack bundle
-            'chat.admin_chat': {
+            'chat.chat_app': {
                 'chatWebsocketEndpoint': 'ws://localhost:8000/chat/',
             }
         }
