@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 
 {% load staticfiles %}
 
@@ -10,6 +11,7 @@
       window.js_context = {{ js_context|safe }};
     </script>
 
+    {% render_bundle 'chat.chat_app' %}
 
   {% endif %}
 
@@ -19,8 +21,7 @@
 
   {% if request.user.is_authenticated %}
 
-    <h1>TBD</h1>
-
+    <h1>Just an application shell at this time</h1>
     <div class="container">
       <div id="chat.chat_app"></div>
     </div>
