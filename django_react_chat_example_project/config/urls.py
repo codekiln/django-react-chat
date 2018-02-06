@@ -7,8 +7,8 @@ from django.views import defaults as default_views
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
 
-from django_react_chat_example_project.chat.views import ChatView
 from django_react_chat_example_project.chat.schema import schema
+from django_react_chat_example_project.chat.views import ChatView
 
 urlpatterns = [
                   url(r'^$', ChatView.as_view(), name='home'),

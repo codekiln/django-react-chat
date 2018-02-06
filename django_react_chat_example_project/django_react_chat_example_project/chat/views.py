@@ -53,6 +53,21 @@ class ChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
     def get_context_data(self, **kwargs):
         context = super(ChatView, self).get_context_data(**kwargs)
         js_context = {
+            'chat.chat_app': {
+                'chatWebsocketEndpoint': 'ws://localhost:8000/chat/',
+            }
+        }
+        self.add_js_context_to_context(context, js_context)
+
+        return context
+
+
+class RegularJsApolloChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
+    template_name = "chat/js_apollo_chat_page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(RegularJsApolloChatView, self).get_context_data(**kwargs)
+        js_context = {
             # named after the webpack bundle
             'chat.chat_app': {
                 'chatWebsocketEndpoint': 'ws://localhost:8000/chat/',
