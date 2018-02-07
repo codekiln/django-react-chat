@@ -1,0 +1,21 @@
+{
+  "name": "reason-scripts",
+  "sources": [
+    "django_react_chat_example_project/static/js/chat/rechat/src"
+  ],
+  "bs-dependencies": [
+    "reason-react",
+    "bs-jest"
+  ],
+  "reason": {
+    "react-jsx": 2
+  },
+  "bsc-flags": [
+    "-bs-super-errors"
+  ],
+  "refmt": 3,
+  "package-specs" : [{
+    "module": "es6",
+    "in-source": true
+  }]
+}
