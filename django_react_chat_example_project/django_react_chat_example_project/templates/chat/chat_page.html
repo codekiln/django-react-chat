@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 
 {% block javascript %}
 
@@ -10,6 +11,7 @@
       window.js_context = {{ js_context|safe }};
     </script>
 
+    {% render_bundle 'chat.rechat' %}
 
   {% endif %}
 
@@ -22,7 +24,7 @@
     <h1>TBD</h1>
 
     <div class="container">
-      <div id="chat.chat_app"></div>
+      <div id="chat.rechat"></div>
     </div>
 
   {% else %}

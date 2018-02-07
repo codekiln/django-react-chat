@@ -53,7 +53,7 @@ class ChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
     def get_context_data(self, **kwargs):
         context = super(ChatView, self).get_context_data(**kwargs)
         js_context = {
-            'chat.chat_app': {
+            'chat.rechat': {
                 'chatWebsocketEndpoint': 'ws://localhost:8000/chat/',
             }
         }
