@@ -31,22 +31,6 @@ class JsContextMixin(object):
         return context
 
 
-class OldChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
-    template_name = "chat/old_chat_page.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(OldChatView, self).get_context_data(**kwargs)
-        js_context = {
-            # named after the webpack bundle
-            'chat.old_chat': {
-                'chatWebsocketEndpoint': 'ws://localhost:8000/chat/',
-            }
-        }
-        self.add_js_context_to_context(context, js_context)
-
-        return context
-
-
 class ChatView(LoginRequiredMixin, TemplateView, JsContextMixin):
     template_name = "chat/chat_page.html"
 

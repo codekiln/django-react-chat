@@ -1,7 +1,7 @@
 {
   "name": "django-react-chat-example-project",
   "version": "0.1.0",
-  "description": "An example of a chat app built with django channels and react",
+  "description": "A chat app built with Django Channels and Reason-React with GraphQL",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production webpack --config webpack.config.js --progress --colors",
@@ -14,11 +14,12 @@
     "url": "https://github.com/codekiln/django-react-chat.git"
   },
   "keywords": [
-    "react",
-    "django",
-    "webpack",
-    "django-channels",
-    "chat"
+    "React",
+    "ReasonML",
+    "Django",
+    "Webpack",
+    "Django Channels",
+    "Chat"
   ],
   "author": "Myer Nore",
   "contributors": [],
@@ -32,18 +33,10 @@
     "babel-preset-env": "^1.6.1",
     "bs-jest": "^0.3.2",
     "bs-platform": "^2.1.0",
-    "eslint": "^1.10.1",
-    "eslint-config-defaults": "^7.1.1",
-    "eslint-config-google": "^0.3.0",
-    "flow-bin": "^0.61.0",
-    "node-libs-browser": "^2.1.0",
-    "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-hot-loader": "^3.1.3",
     "reason-react": "^0.3.2",
     "webpack": "^3.9.1",
-    "webpack-bundle-tracker": "^0.2.0",
-    "webpack-dev-server": "^2.9.5"
+    "webpack-bundle-tracker": "^0.2.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-solid": "^5.0.4",
@@ -55,14 +48,11 @@
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.9",
     "graphql-tag": "^2.6.1",
-    "lodash.sortby": "^4.7.0",
     "node-sass": "^4.7.2",
     "react-apollo": "^2.0.4",
-    "react-avatar": "^2.5.1",
     "react-dom": "^16.2.0",
     "react-websocket": "^2.0.0",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.20.1",
-    "uuid": "^3.1.0"
+    "style-loader": "^0.20.1"
   }
 }
