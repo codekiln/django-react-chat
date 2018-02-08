@@ -7,7 +7,8 @@
     "build": "NODE_ENV=production webpack --config webpack.config.js --progress --colors",
     "dev": "NODE_ENV=development webpack --config webpack.config.js --watch",
     "bsb:start": "bsb -make-world -w",
-    "bsb:clean": "bsb -clean-world"
+    "bsb:clean": "bsb -clean-world",
+    "bsb:build": "bsb -make-world"
   },
   "repository": {
     "type": "git",
