@@ -43,7 +43,6 @@ module.exports = [{
     // Format: 'bundle_identity_name': '/path/to/source/js/without/.js/suffix'
     'chat.rechat': './django_react_chat_example_project/static/js/chat/rechat/src/index',
     'chat.chat_app': './django_react_chat_example_project/static/js/chat/ChatApp/ChatApp',
-    'chat.old_chat': './django_react_chat_example_project/static/js/chat/OldChat/OldChatApp',
 
   },
 
