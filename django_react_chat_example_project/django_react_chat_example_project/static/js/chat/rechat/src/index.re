@@ -1,5 +1,5 @@
 [%bs.raw {|require('./index.scss')|}];
 
 
-ReactDOMRe.renderToElementWithId(<App message="Welcome to React and Reason" />, "root");
+ReactDOMRe.renderToElementWithId(<App message="Welcome to React and Reason" />, "chat.rechat");
 
