@@ -1,13 +1,17 @@
-Django React Chat Example Project
-=================================
+Django Reason React Chat Example Project
+========================================
 
 An example project showing a chat app with Django Channels, 
 Webpack, React and Docker.
 
 ## Status: 
-You are on the development branch for the [Web Reason Apollo](https://github.com/codekiln/django-react-chat/milestone/2)
-milestone, which is in development. For the stable version of the app,
-please check out `master`. NOTE: the old version of the app is still
+You are on the **development** branch for the [Apollo and ReasonML Web Client](https://github.com/codekiln/django-react-chat/milestone/2)
+milestone. Several things are in progress.
+
+*For the stable version of the app,
+please check out `master`*. 
+
+NOTE: the old version of the app is still
 available by logging in and clicking on `Old Chat App` in the header.
 
 
@@ -20,8 +24,12 @@ available by logging in and clicking on `Old Chat App` in the header.
 ## Prerequisites
 1. Install Docker for your system so that `docker-compose` and `docker`
    are available from the command line.   
-2. Install `yarn` package manager. `npm` likely works, too but was
-   not tested.
+2. Globally install `node` v9 or above. Older versions likely work, but 
+   have not been tested.
+3. Globally install `yarn` package manager. `npm` likely works, too but 
+   was not tested.
+4. Globally install [ReasonML Tools](https://reasonml.github.io/docs/en/global-installation.html)
+
 
 
 ## Installation
@@ -29,6 +37,8 @@ available by logging in and clicking on `Old Chat App` in the header.
    * why `--ignore-engines`? because of 
      [this issue with `react-avatar` for the OLD chat app](https://github.com/Sitebase/react-avatar/issues/78)
    * TODO: remove `--ignore-engines` after removing old chat app
+2. `yarn bsb:start` - start compiling reason to js
+   * alternatively, use one of the [ReasonML Editor Plugins](https://reasonml.github.io/docs/en/editor-plugins.html)
 2. `yarn dev` - start generating the webpack bundle
 3. `docker-compose -f local.yml build` - compile the Docker Images,
    using the docker-compose file at `local.yml`. 
