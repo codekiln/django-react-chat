@@ -25,7 +25,8 @@ milestone. Several things are in progress.
 3. Globally install `yarn` package manager. `npm` likely works, too but 
    was not tested.
 4. Globally install [ReasonML Tools](https://reasonml.github.io/docs/en/global-installation.html)
-
+5. Install OCaml with Opam 4.02.3
+6. `opam install graphql_ppx`
 
 
 ## Installation
@@ -62,4 +63,6 @@ milestone. Several things are in progress.
 * `$ docker-compose -f local.yml run django python manage.py migrate`
   * `./manage.py migrate` is called during 
     `docker-compose -f local.yml up`, but useful to know anyway
-
+* `yarn gql:schema`: freshen up graphql_schema.json if you've changed
+  the graphql schema. If this happens, you may need to rerun
+  `yarn bsb:start` to rebuild the Reason GraphQL extensions.
