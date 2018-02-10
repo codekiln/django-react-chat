@@ -7,7 +7,7 @@ import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
 ((require('./index.scss')));
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App.make("Welcome to React and Reason", /* array */[])), "chat.rechat");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App.make(/* array */[])), "chat.rechat");
 
 export {
   
