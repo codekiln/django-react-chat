@@ -11,14 +11,14 @@ module UsersQuery = [%graphql {|
   }
 |}];
 
-let component = ReasonReact.statelessComponent("Greeting");
+let component = ReasonReact.statelessComponent("RechatUsersList");
 
-module Query = Apollo.Instance.Query;
+module Query = RechatApollo.Instance.Query;
 
 let make = (_children) => {
   ...component,
   render: (_) => {
-    let unexpectedError = <div> (ReasonReact.stringToElement("There was an internal error, lol")) </div>;
+    let unexpectedError = <div> (ReasonReact.stringToElement("There was an internal error")) </div>;
     let usersQuery = UsersQuery.make();
     <Query query=usersQuery>
     ...((response, parse) => {
@@ -31,7 +31,7 @@ let make = (_children) => {
             | Some(chatUsers) => {
                 chatUsers |> Array.map((chatUserOption) => {
                   switch chatUserOption {
-                  | Some(chatUser) => <div> (ReasonReact.stringToElement(chatUser##username)) </div>
+                  | Some(chatUser) => <div key=(chatUser##username)> (ReasonReact.stringToElement(chatUser##username)) </div>
                   | None => <div>(ReasonReact.stringToElement("No Users"))</div>
                   }
                 }) |> ReasonReact.arrayToElement
