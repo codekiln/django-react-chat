@@ -2,22 +2,19 @@
 'use strict';
 
 import * as React       from "react";
+import * as UsersList   from "./UsersList.js";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
 ((require('./app.scss')));
 
 var component = ReasonReact.statelessComponent("App");
 
-function make(message, _) {
+function make() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
                   className: "App"
-                }, React.createElement("div", {
-                      className: "App-header"
-                    }, React.createElement("h2", undefined, message)), React.createElement("p", {
-                      className: "App-intro"
-                    }, "To get started, edit", React.createElement("code", undefined, " src/app.re "), "and save to reload, then jump."));
+                }, ReasonReact.element(/* None */0, /* None */0, UsersList.make(/* array */[])));
     });
   return newrecord;
 }

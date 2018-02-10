@@ -154,7 +154,7 @@ anymatch@^1.3.0:
     micromatch "^2.1.5"
     normalize-path "^2.0.0"
 
-apollo-cache-inmemory@^1.1.7:
+apollo-cache-inmemory@^1.1.5:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/apollo-cache-inmemory/-/apollo-cache-inmemory-1.1.7.tgz#15e6200f70431414d29bd5f20e86d81739e26430"
   dependencies:
@@ -168,9 +168,9 @@ apollo-cache@^1.1.2:
   dependencies:
     apollo-utilities "^1.0.6"
 
-apollo-client@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.2.2.tgz#55d7b7a85d28161a6ecddd86cde8180be52193f6"
+apollo-client@^2.2.0:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-2.2.3.tgz#a8df51c9ff89acb0d98de81b911e56b1ce468ca3"
   dependencies:
     "@types/zen-observable" "^0.5.3"
     apollo-cache "^1.1.2"
@@ -203,11 +203,29 @@ apollo-link-batch@^1.0.4:
   dependencies:
     apollo-link "^1.0.7"
 
+apollo-link-context@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.5.tgz#45241b508629d685b614dfc9c344932695e41e07"
+  dependencies:
+    apollo-link "^1.1.0"
+
 apollo-link-dedup@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/apollo-link-dedup/-/apollo-link-dedup-1.0.5.tgz#1c213d7ebbe48e74b016fffacd7e6a53dc309e32"
   dependencies:
     apollo-link "^1.0.7"
+
+apollo-link-error@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/apollo-link-error/-/apollo-link-error-1.0.5.tgz#e169705956522dccab1a876a54374855937cb083"
+  dependencies:
+    apollo-link "^1.1.0"
+
+apollo-link-http@^1.3.2:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/apollo-link-http/-/apollo-link-http-1.3.3.tgz#cb792c73266607e6361c8c1cc4dd42d405ca08f1"
+  dependencies:
+    apollo-link "^1.1.0"
 
 apollo-link@^1.0.0, apollo-link@^1.0.7:
   version "1.0.7"
@@ -216,6 +234,14 @@ apollo-link@^1.0.0, apollo-link@^1.0.7:
     "@types/zen-observable" "0.5.3"
     apollo-utilities "^1.0.0"
     zen-observable "^0.6.0"
+
+apollo-link@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.1.0.tgz#9d573b16387ee0d8e147b1f319e42c8c562f18f7"
+  dependencies:
+    "@types/zen-observable" "0.5.3"
+    apollo-utilities "^1.0.0"
+    zen-observable "^0.7.0"
 
 apollo-utilities@^1.0.0, apollo-utilities@^1.0.6:
   version "1.0.6"
@@ -2276,6 +2302,12 @@ graphql@^0.12.0:
   dependencies:
     iterall "1.1.3"
 
+graphql@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.0.tgz#d1b44a282279a9ce0a6ec1037329332f4c1079b6"
+  dependencies:
+    iterall "1.1.x"
+
 graphql_ppx@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/graphql_ppx/-/graphql_ppx-0.0.1.tgz#e8042e291e2994dcdbcfa2918fa53932b736fa56"
@@ -2786,6 +2818,10 @@ istanbul-reports@^1.1.3:
 iterall@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
+
+iterall@1.1.x:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.4.tgz#0db40d38fdcf53ae14dc8ec674e62ab190d52cfc"
 
 jest-changed-files@^22.1.4:
   version "22.1.4"
@@ -4331,8 +4367,8 @@ realpath-native@^1.0.0:
     util.promisify "^1.0.0"
 
 reason-apollo@^0.6.13:
-  version "0.6.13"
-  resolved "https://registry.yarnpkg.com/reason-apollo/-/reason-apollo-0.6.13.tgz#7806f52a40d1c49f042f7784f9130942b8c6f527"
+  version "0.6.14"
+  resolved "https://registry.yarnpkg.com/reason-apollo/-/reason-apollo-0.6.14.tgz#a27f2a4784954e6c44cca16b89d66cce0dcdbc2b"
   dependencies:
     fbjs "^0.8.16"
 
