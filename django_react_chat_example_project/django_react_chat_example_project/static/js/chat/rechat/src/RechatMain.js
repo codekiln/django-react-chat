@@ -5,7 +5,7 @@ import * as RechatApp   from "./RechatApp.js";
 import * as ReactDOMRe  from "reason-react/src/ReactDOMRe.js";
 import * as ReasonReact from "reason-react/src/ReasonReact.js";
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, RechatApp.make(/* array */[])), "chat.rechat");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, RechatApp.make(/* array */[])), "rechat");
 
 export {
   

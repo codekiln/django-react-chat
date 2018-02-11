@@ -1,4 +1,4 @@
 
 
-ReactDOMRe.renderToElementWithId(<RechatApp />, "chat.rechat");
+ReactDOMRe.renderToElementWithId(<RechatApp />, "rechat");
 

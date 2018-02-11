@@ -12,3 +12,5 @@ let arr_only_some = (arr) => Array.fold_right(
   	arr,
     [||]
   );
+
+let ste = ReasonReact.stringToElement

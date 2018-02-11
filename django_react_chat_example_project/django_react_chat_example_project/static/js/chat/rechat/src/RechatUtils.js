@@ -13,8 +13,13 @@ function arr_only_some(arr) {
               }), arr, /* array */[]);
 }
 
+function ste(prim) {
+  return prim;
+}
+
 export {
   arr_only_some ,
+  ste           ,
   
 }
 /* No side effect */
