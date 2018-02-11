@@ -6,6 +6,7 @@ import * as Curry               from "bs-platform/lib/es6/curry.js";
 import * as React               from "react";
 import * as Js_json             from "bs-platform/lib/es6/js_json.js";
 import * as ReasonReact         from "reason-react/src/ReasonReact.js";
+import * as RechatUtils         from "./RechatUtils.js";
 import * as RechatApollo        from "./RechatApollo.js";
 import * as Caml_exceptions     from "bs-platform/lib/es6/caml_exceptions.js";
 import * as RechatUsersListItem from "./RechatUsersListItem.js";
@@ -146,6 +147,14 @@ var UsersQuery = /* module */[
 
 var component = ReasonReact.statelessComponent("RechatUsersList");
 
+function renderUsersListItem(user) {
+  return ReasonReact.element(/* Some */[user.username], /* None */0, RechatUsersListItem.make(user, /* array */[]));
+}
+
+function renderUsersList(chatUsers) {
+  return $$Array.map(renderUsersListItem, chatUsers);
+}
+
 function make$1() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
@@ -159,14 +168,8 @@ function make$1() {
                         } else {
                           var chatUsers = Curry._1(parse, response[0]).chatUsers;
                           if (chatUsers) {
-                            return $$Array.map((function (chatUserOption) {
-                                          if (chatUserOption) {
-                                            var chatUser = chatUserOption[0];
-                                            return ReasonReact.element(/* Some */[chatUser.username], /* None */0, RechatUsersListItem.make(chatUser, /* array */[]));
-                                          } else {
-                                            return React.createElement("div", undefined, "No Users");
-                                          }
-                                        }), chatUsers[0]);
+                            var chatUsers$1 = RechatUtils.arr_only_some(chatUsers[0]);
+                            return $$Array.map(renderUsersListItem, chatUsers$1);
                           } else {
                             return unexpectedError;
                           }
@@ -179,10 +182,12 @@ function make$1() {
 var Query = 0;
 
 export {
-  UsersQuery ,
-  component  ,
-  Query      ,
-  make$1       as make,
+  UsersQuery          ,
+  component           ,
+  Query               ,
+  renderUsersListItem ,
+  renderUsersList     ,
+  make$1                as make,
   
 }
 /* component Not a pure module */
