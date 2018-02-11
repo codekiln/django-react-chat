@@ -21,7 +21,12 @@ let renderUsersListItem = (user) => <RechatUsersListItem key=(user##username) ch
 let renderUsersList = (chatUsers) => {
   let listItems = Array.map(renderUsersListItem, chatUsers) |> ReasonReact.arrayToElement;
 
-  <ul>(listItems)</ul>
+  <div className="users-list">
+    <div className="header">
+      <h2>(RechatUtils.ste("Contacts"))</h2>
+    </div>
+    <ul>(listItems)</ul>
+  </div>
 };
 
 

@@ -1,3 +1,35 @@
-#chat.rechat {
 
+$lightgrey: #e9ebee;
+$ashgrey: rgba(0, 0, 0, .4);
+$bluegrey: #b2b9c9;
+
+#rechat {
+  .RechatApp {
+    .RechatSidebar {
+      background-clip:padding-box;
+      background-color:$lightgrey;
+      border-left:1px solid $ashgrey;
+      box-shadow:inset 2px 0 2px -2px $bluegrey;
+      font-size:12px;
+      height:100%;
+      line-height:16px;
+      width: 205px;
+      position:fixed;
+      right:0;
+      top:0;
+
+      .users-list {
+
+        ul {
+          padding: 0;
+        }
+
+        li {
+          padding: 8px;
+          border-top: 1px solid $ashgrey;
+          list-style-type: none;
+        }
+      }
+    }
+  }
 }

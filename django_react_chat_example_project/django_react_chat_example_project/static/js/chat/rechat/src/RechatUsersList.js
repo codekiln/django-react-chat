@@ -153,7 +153,11 @@ function renderUsersListItem(user) {
 
 function renderUsersList(chatUsers) {
   var listItems = $$Array.map(renderUsersListItem, chatUsers);
-  return React.createElement("ul", undefined, listItems);
+  return React.createElement("div", {
+              className: "users-list"
+            }, React.createElement("div", {
+                  className: "header"
+                }, React.createElement("h2", undefined, RechatUtils.ste("Contacts"))), React.createElement("ul", undefined, listItems));
 }
 
 function make$1() {
