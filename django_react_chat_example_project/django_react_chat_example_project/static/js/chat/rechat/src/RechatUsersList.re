@@ -21,7 +21,7 @@ let renderUsersListItem = (user) => <RechatUsersListItem key=(user##username) ch
 let renderUsersList = (chatUsers) => {
   let listItems = Array.map(renderUsersListItem, chatUsers) |> ReasonReact.arrayToElement;
 
-  <MaterialUI.List>(listItems)</MaterialUI.List>
+  <ul>(listItems)</ul>
 };
 
 
