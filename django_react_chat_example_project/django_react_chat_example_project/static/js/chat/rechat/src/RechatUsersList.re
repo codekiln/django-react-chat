@@ -18,8 +18,12 @@ module Query = RechatApollo.Instance.Query;
 
 let renderUsersListItem = (user) => <RechatUsersListItem key=(user##username) chatUser=(user)/>;
 
-let renderUsersList = (chatUsers) =>
-  Array.map(renderUsersListItem, chatUsers) |> ReasonReact.arrayToElement;
+let renderUsersList = (chatUsers) => {
+  let listItems = Array.map(renderUsersListItem, chatUsers) |> ReasonReact.arrayToElement;
+
+  <MaterialUI.List>(listItems)</MaterialUI.List>
+};
+
 
 let make = (_children) => {
   ...component,

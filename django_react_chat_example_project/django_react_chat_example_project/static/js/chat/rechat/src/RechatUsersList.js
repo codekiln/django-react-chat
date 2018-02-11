@@ -5,6 +5,7 @@ import * as $$Array             from "bs-platform/lib/es6/array.js";
 import * as Curry               from "bs-platform/lib/es6/curry.js";
 import * as React               from "react";
 import * as Js_json             from "bs-platform/lib/es6/js_json.js";
+import * as MaterialUI          from "bs-material-ui/src/MaterialUI.js";
 import * as ReasonReact         from "reason-react/src/ReasonReact.js";
 import * as RechatUtils         from "./RechatUtils.js";
 import * as RechatApollo        from "./RechatApollo.js";
@@ -152,7 +153,8 @@ function renderUsersListItem(user) {
 }
 
 function renderUsersList(chatUsers) {
-  return $$Array.map(renderUsersListItem, chatUsers);
+  var listItems = $$Array.map(renderUsersListItem, chatUsers);
+  return ReasonReact.element(/* None */0, /* None */0, MaterialUI.List[/* make */0](/* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* array */[listItems]));
 }
 
 function make$1() {
@@ -168,8 +170,7 @@ function make$1() {
                         } else {
                           var chatUsers = Curry._1(parse, response[0]).chatUsers;
                           if (chatUsers) {
-                            var chatUsers$1 = RechatUtils.arr_only_some(chatUsers[0]);
-                            return $$Array.map(renderUsersListItem, chatUsers$1);
+                            return renderUsersList(RechatUtils.arr_only_some(chatUsers[0]));
                           } else {
                             return unexpectedError;
                           }
