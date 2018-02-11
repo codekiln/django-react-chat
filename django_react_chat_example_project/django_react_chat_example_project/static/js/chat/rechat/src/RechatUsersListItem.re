@@ -3,6 +3,8 @@ let component = ReasonReact.statelessComponent("RechatUsersListItem");
 let make = (~chatUser, _children) => {
   ...component,
   render: (_) => {
-    <div> (ReasonReact.stringToElement(chatUser##username)) </div>
+    <MaterialUI.ListItem>
+      <MaterialUI.ListItemText primary=(chatUser##username)/>
+    </MaterialUI.ListItem>
   }
 };

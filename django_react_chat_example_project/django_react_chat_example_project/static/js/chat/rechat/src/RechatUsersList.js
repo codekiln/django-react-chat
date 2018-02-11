@@ -5,7 +5,9 @@ import * as $$Array             from "bs-platform/lib/es6/array.js";
 import * as Curry               from "bs-platform/lib/es6/curry.js";
 import * as React               from "react";
 import * as Js_json             from "bs-platform/lib/es6/js_json.js";
+import * as MaterialUI          from "bs-material-ui/src/MaterialUI.js";
 import * as ReasonReact         from "reason-react/src/ReasonReact.js";
+import * as RechatUtils         from "./RechatUtils.js";
 import * as RechatApollo        from "./RechatApollo.js";
 import * as Caml_exceptions     from "bs-platform/lib/es6/caml_exceptions.js";
 import * as RechatUsersListItem from "./RechatUsersListItem.js";
@@ -146,6 +148,15 @@ var UsersQuery = /* module */[
 
 var component = ReasonReact.statelessComponent("RechatUsersList");
 
+function renderUsersListItem(user) {
+  return ReasonReact.element(/* Some */[user.username], /* None */0, RechatUsersListItem.make(user, /* array */[]));
+}
+
+function renderUsersList(chatUsers) {
+  var listItems = $$Array.map(renderUsersListItem, chatUsers);
+  return ReasonReact.element(/* None */0, /* None */0, MaterialUI.List[/* make */0](/* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* array */[listItems]));
+}
+
 function make$1() {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
@@ -159,14 +170,7 @@ function make$1() {
                         } else {
                           var chatUsers = Curry._1(parse, response[0]).chatUsers;
                           if (chatUsers) {
-                            return $$Array.map((function (chatUserOption) {
-                                          if (chatUserOption) {
-                                            var chatUser = chatUserOption[0];
-                                            return ReasonReact.element(/* Some */[chatUser.username], /* None */0, RechatUsersListItem.make(chatUser, /* array */[]));
-                                          } else {
-                                            return React.createElement("div", undefined, "No Users");
-                                          }
-                                        }), chatUsers[0]);
+                            return renderUsersList(RechatUtils.arr_only_some(chatUsers[0]));
                           } else {
                             return unexpectedError;
                           }
@@ -179,10 +183,12 @@ function make$1() {
 var Query = 0;
 
 export {
-  UsersQuery ,
-  component  ,
-  Query      ,
-  make$1       as make,
+  UsersQuery          ,
+  component           ,
+  Query               ,
+  renderUsersListItem ,
+  renderUsersList     ,
+  make$1                as make,
   
 }
 /* component Not a pure module */

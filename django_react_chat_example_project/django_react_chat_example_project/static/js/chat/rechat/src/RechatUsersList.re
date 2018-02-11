@@ -16,6 +16,15 @@ let component = ReasonReact.statelessComponent("RechatUsersList");
 
 module Query = RechatApollo.Instance.Query;
 
+let renderUsersListItem = (user) => <RechatUsersListItem key=(user##username) chatUser=(user)/>;
+
+let renderUsersList = (chatUsers) => {
+  let listItems = Array.map(renderUsersListItem, chatUsers) |> ReasonReact.arrayToElement;
+
+  <MaterialUI.List>(listItems)</MaterialUI.List>
+};
+
+
 let make = (_children) => {
   ...component,
   render: (_) => {
@@ -29,14 +38,7 @@ let make = (_children) => {
          | Loaded(result) => {
             let chatUsers = parse(result)##chatUsers;
             switch chatUsers {
-            | Some(chatUsers) => {
-                chatUsers |> Array.map((chatUserOption) => {
-                  switch chatUserOption {
-                  | Some(chatUser) => <RechatUsersListItem key=(chatUser##username) chatUser=(chatUser)/>
-                  | None => <div>(ReasonReact.stringToElement("No Users"))</div>
-                  }
-                }) |> ReasonReact.arrayToElement
-              }
+            | Some(chatUsers) => RechatUtils.arr_only_some(chatUsers) |> renderUsersList
             | None => unexpectedError
             }
          }
