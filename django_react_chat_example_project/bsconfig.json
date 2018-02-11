@@ -6,8 +6,7 @@
   "bs-dependencies": [
     "reason-react",
     "reason-apollo",
-    "bs-jest",
-    "bs-material-ui"
+    "bs-jest"
   ],
   "reason": {
     "react-jsx": 2
