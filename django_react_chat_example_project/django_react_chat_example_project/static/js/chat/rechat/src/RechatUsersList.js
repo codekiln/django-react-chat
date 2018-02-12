@@ -157,7 +157,7 @@ function renderUsersList(chatUsers) {
               className: "users-list"
             }, React.createElement("div", {
                   className: "header"
-                }, React.createElement("h2", undefined, RechatUtils.ste("Contacts"))), React.createElement("ul", undefined, listItems));
+                }, RechatUtils.ste("CONTACTS")), React.createElement("ul", undefined, listItems));
 }
 
 function make$1() {
