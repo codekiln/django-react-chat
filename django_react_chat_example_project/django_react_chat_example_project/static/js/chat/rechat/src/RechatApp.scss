@@ -1,33 +1,123 @@
+$brightgreen: rgb(66, 183, 42);
 
-$lightgrey: #e9ebee;
-$ashgrey: rgba(0, 0, 0, .4);
-$bluegrey: #b2b9c9;
+$grey-v2: #eaebed;
+$grey-v3: #e9ebee;
+$grey-v4: #dddfe2;
+$grey-v7: #b2b9c9;
+$grey-v8: rgba(0, 0, 0, .4);
+$grey-v10: #4c4c4c;
+$grey-v12: #333;
 
 #rechat {
   .RechatApp {
     .RechatSidebar {
-      background-clip:padding-box;
-      background-color:$lightgrey;
-      border-left:1px solid $ashgrey;
-      box-shadow:inset 2px 0 2px -2px $bluegrey;
-      font-size:12px;
-      height:100%;
-      line-height:16px;
+      background-clip: padding-box;
+      background-color: $grey-v3;
+      border-left: 1px solid $grey-v8;
+      box-shadow: inset 2px 0 2px -2px $grey-v7;
+      font-size: 12px;
+      height: 100%;
+      line-height: 16px;
       width: 205px;
-      position:fixed;
-      right:0;
-      top:0;
+      position: fixed;
+      right: 0;
+      top: 0;
 
       .users-list {
 
+        .header {
+          color: $grey-v10;
+          font-size: 11px;
+          font-weight: bold;
+          margin: 8px 0 8px 8px;
+          height: 16px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         ul {
+          list-style-type: none;
+          margin: 0;
           padding: 0;
         }
 
         li {
-          padding: 8px;
-          border-top: 1px solid $ashgrey;
-          list-style-type: none;
+
+          &:hover {
+            background-color: $grey-v4;
+            box-shadow: 1px 0 0 $grey-v2 inset;
+            text-decoration: none;
+          }
+
+          a.chatgroup-link {
+            color: $grey-v12;
+            display: block;
+            height: 32px;
+            line-height: 32px;
+            padding: 4px 0;
+            position: relative;
+            text-decoration: none;
+          }
+
+          .chatgroup-item {
+            padding-left: 8px;
+            position: relative;
+          }
+
+          .avatar-container {
+
+            border-radius: 50%;
+            color: #333;
+            display: block;
+            float: left;
+            height: 32px;
+            line-height: 32px;
+            overflow: hidden;
+            padding: 4px 0;
+            position: relative;
+            top: -1px;
+            width: 34px;
+
+            .avatar {
+              width: 34px;
+              border-radius: 50%;
+              color: #333;
+              display: block;
+              height: 32px;
+              line-height: 32px;
+              padding: 4px 0;
+              position: relative;
+            }
+          }
+
+          .status-container {
+            float: right;
+            line-height: 32px;
+            margin: 0 1px 0 4px;
+            text-align: right;
+
+            .status-indicator {
+              display: inline-block;
+              padding-right: 12px;
+
+              span {
+                background: $brightgreen;
+                border-radius: 50%;
+                display: inline-block;
+                height: 6px;
+                margin-left: 4px;
+                width: 6px;
+              }
+            }
+          }
+
+          .name, .rightBuffer {
+            overflow: hidden;
+            padding-left: 8px;
+            text-overflow: ellipsis;
+            white-space: nowrap
+          }
+
         }
       }
     }

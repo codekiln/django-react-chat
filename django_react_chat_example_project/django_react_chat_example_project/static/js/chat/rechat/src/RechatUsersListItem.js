@@ -9,7 +9,24 @@ var component = ReasonReact.statelessComponent("RechatUsersListItem");
 function make(chatUser, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = (function () {
-      return React.createElement("li", undefined, chatUser.username);
+      return React.createElement("li", undefined, React.createElement("a", {
+                      className: "chatgroup-link",
+                      rel: "ignore"
+                    }, React.createElement("div", {
+                          className: "chatgroup-item"
+                        }, React.createElement("div", {
+                              className: "avatar-container"
+                            }, React.createElement("div", {
+                                  className: "avatar"
+                                })), React.createElement("div", {
+                              className: "status-container"
+                            }, React.createElement("div", {
+                                  className: "status-indicator"
+                                }, React.createElement("span", undefined))), React.createElement("div", {
+                              className: "name"
+                            }, chatUser.username), React.createElement("div", {
+                              className: "rightBuffer"
+                            }))));
     });
   return newrecord;
 }
