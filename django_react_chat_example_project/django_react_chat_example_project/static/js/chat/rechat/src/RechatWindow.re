@@ -34,7 +34,7 @@ let make = (_children) => {
     <div className="RechatWindow">
 
       <div className="RechatWindow__Header">
-        <div className="RechatWindow__Name">(RechatUtils.ste("Chat User 1"))</div>
+        <div className="RechatWindow__HeaderTitle">(RechatUtils.ste("Chat User 1"))</div>
         <div className="RechatWindow__CloseButton">(RechatUtils.ste("X"))</div>
       </div>
 
@@ -42,7 +42,7 @@ let make = (_children) => {
 
         <div className="RechatWindow__MessageContainer RechatWindow__MessageContainer--Theirs">
           <div className="RechatWindow__AvatarContainer">
-            <div className="RechatWindow__Avatar">(RechatUtils.ste("THEM"))</div>
+            <MaterialUI.Avatar className="RechatWindow__Avatar">(RechatUtils.ste("TH"))</MaterialUI.Avatar>
           </div>
           <div className="RechatWindow__Message RechatWindow__Message--Theirs">(RechatUtils.ste("A small river named Duden flows by their place and supplies it with the necessary regelialia."))</div>
         </div>
@@ -54,7 +54,7 @@ let make = (_children) => {
 
         <div className="RechatWindow__MessageContainer RechatWindow__MessageContainer--Theirs">
           <div className="RechatWindow__AvatarContainer">
-            <div className="RechatWindow__Avatar">(RechatUtils.ste("THEM"))</div>
+            <MaterialUI.Avatar className="RechatWindow__Avatar">(RechatUtils.ste("TH"))</MaterialUI.Avatar>
           </div>
           <div className="RechatWindow__Message RechatWindow__Message--Theirs">(RechatUtils.ste("It is a paradisematic country, in which roasted parts of sentences fly into your mouth."))</div>
         </div>

@@ -22,6 +22,12 @@ $secondary-darker: $quicksilver;
 $dark: $black-olive;
 
 #rechat {
+    // Avatar uses material-ui, so nesting is needed to increase the specificity
+  .RechatWindow__Avatar {
+    width: 30px;
+    height: 30px;
+  }
+
 }
 
 .RechatSidebar {
@@ -162,7 +168,7 @@ $RechatWindow_MessagePort_height: $RechatWindow_height - $RechatWindow_Header_he
   height: $RechatWindow_Header_height;
 }
 
-.RechatWindow__Name {
+.RechatWindow__HeaderTitle {
   float: left;
   width: 92%;
 }
@@ -182,6 +188,18 @@ $RechatWindow_MessagePort_height: $RechatWindow_height - $RechatWindow_Header_he
   height: $RechatWindow_MessagePort_height;
 }
 
+.RechatWindow__AvatarContainer, .RechatWindow__Message {
+  display: inline-block;
+}
+
+.RechatWindow__MessageContainer--Theirs {
+  float: left;
+}
+
+.RechatWindow__MessageContainer--Ours {
+  float: right;
+}
+
 .RechatWindow__Message {
   width: 155px;
   border-radius: 10px;
@@ -192,13 +210,13 @@ $RechatWindow_MessagePort_height: $RechatWindow_height - $RechatWindow_Header_he
 
 .RechatWindow__Message--Theirs {
   background-color: $secondary;
-  float: left;
+  border-bottom-left-radius: 0;
 }
 
 .RechatWindow__Message--Ours {
   background-color: $primary-darker;
   color: white;
-  float: right;
+  border-bottom-right-radius: 0;
 }
 
 .RechatWindow__Footer {

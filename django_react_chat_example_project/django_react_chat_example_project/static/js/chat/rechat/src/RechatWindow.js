@@ -4,6 +4,7 @@
 import * as $$Array               from "bs-platform/lib/es6/array.js";
 import * as React                 from "react";
 import * as Js_json               from "bs-platform/lib/es6/js_json.js";
+import * as MaterialUI            from "bs-material-ui/src/MaterialUI.js";
 import * as ReasonReact           from "reason-react/src/ReasonReact.js";
 import * as RechatUtils           from "./RechatUtils.js";
 import * as Caml_exceptions       from "bs-platform/lib/es6/caml_exceptions.js";
@@ -165,7 +166,7 @@ function make$1() {
                 }, React.createElement("div", {
                       className: "RechatWindow__Header"
                     }, React.createElement("div", {
-                          className: "RechatWindow__Name"
+                          className: "RechatWindow__HeaderTitle"
                         }, RechatUtils.ste("Chat User 1")), React.createElement("div", {
                           className: "RechatWindow__CloseButton"
                         }, RechatUtils.ste("X"))), React.createElement("div", {
@@ -174,9 +175,7 @@ function make$1() {
                           className: "RechatWindow__MessageContainer RechatWindow__MessageContainer--Theirs"
                         }, React.createElement("div", {
                               className: "RechatWindow__AvatarContainer"
-                            }, React.createElement("div", {
-                                  className: "RechatWindow__Avatar"
-                                }, RechatUtils.ste("THEM"))), React.createElement("div", {
+                            }, ReasonReact.element(/* None */0, /* None */0, MaterialUI.Avatar[/* make */0](/* None */0, /* Some */["RechatWindow__Avatar"], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* array */[RechatUtils.ste("TH")]))), React.createElement("div", {
                               className: "RechatWindow__Message RechatWindow__Message--Theirs"
                             }, RechatUtils.ste("A small river named Duden flows by their place and supplies it with the necessary regelialia."))), React.createElement("div", {
                           className: "RechatWindow__MessageContainer RechatWindow__MessageContainer--Ours"
@@ -186,9 +185,7 @@ function make$1() {
                           className: "RechatWindow__MessageContainer RechatWindow__MessageContainer--Theirs"
                         }, React.createElement("div", {
                               className: "RechatWindow__AvatarContainer"
-                            }, React.createElement("div", {
-                                  className: "RechatWindow__Avatar"
-                                }, RechatUtils.ste("THEM"))), React.createElement("div", {
+                            }, ReasonReact.element(/* None */0, /* None */0, MaterialUI.Avatar[/* make */0](/* None */0, /* Some */["RechatWindow__Avatar"], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* array */[RechatUtils.ste("TH")]))), React.createElement("div", {
                               className: "RechatWindow__Message RechatWindow__Message--Theirs"
                             }, RechatUtils.ste("It is a paradisematic country, in which roasted parts of sentences fly into your mouth.")))), React.createElement("div", {
                       className: "RechatWindow__Footer"
