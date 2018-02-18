@@ -3,6 +3,7 @@
 
 import * as React         from "react";
 import * as ReasonReact   from "reason-react/src/ReasonReact.js";
+import * as RechatWindow  from "./RechatWindow.js";
 import * as RechatSidebar from "./RechatSidebar.js";
 
 ((require('./RechatApp.scss')));
@@ -14,7 +15,7 @@ function make() {
   newrecord[/* render */9] = (function () {
       return React.createElement("div", {
                   className: "RechatApp"
-                }, ReasonReact.element(/* None */0, /* None */0, RechatSidebar.make(/* array */[])));
+                }, ReasonReact.element(/* None */0, /* None */0, RechatSidebar.make(/* array */[])), ReasonReact.element(/* None */0, /* None */0, RechatWindow.make(/* array */[])));
     });
   return newrecord;
 }
