@@ -1,6 +1,6 @@
 let component = ReasonReact.statelessComponent("RechatUsersListItem");
 
-let make = (~chatUser, _children) => {
+let make = (~chatMessage, _children) => {
   ...component,
   render: (_) => {
     <li>
@@ -14,7 +14,7 @@ let make = (~chatUser, _children) => {
               <span></span>
             </div>
           </div>
-          <div className="name">(ReasonReact.stringToElement(chatUser##username))</div>
+          <div className="name">(ReasonReact.stringToElement(chatMessage##text))</div>
           <div className="rightBuffer"></div>
         </div>
       </a>
