@@ -363,3 +363,12 @@ django_react_chat_example_project/media/
 # See issue https://github.com/pydanny/cookiecutter-django/issues/1321
 !/compose/local/
 
+# reason build artifacts
+.merlin
+
+# vscode 
+.vscode/settings.json
+
+# webpack bundles
+django_react_chat_example_project/static/js/
+webpack-stats.json
