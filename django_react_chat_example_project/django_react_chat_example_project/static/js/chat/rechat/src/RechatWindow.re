@@ -43,9 +43,7 @@
        />
      </div>
    </div>;
- };
- */
-/* Create a GraphQL Query by using the graphql_ppx */
+ };*/
 type user = {
   id: string,
   name: string,
@@ -107,7 +105,7 @@ let parseUsers = (users: userObjArr) => {
   Array.fold_left(buildUserList, [], someUsers);
 };
 
-let parseChatGroup = chatGroup =>
+let getChatGroupUsers = chatGroup =>
   switch (chatGroup) {
   | Some(chatGroup) => parseUsers(chatGroup##users)
   | None => []
@@ -122,8 +120,8 @@ let getUserMap = (users: list(user)) => {
 
 let renderLoadedResult = result => {
   let chatGroup = result##chatGroup;
-  let users = parseChatGroup(chatGroup);
-  /* let usersMap = getUserMap(users); */
+  let users = getChatGroupUsers(chatGroup);
+  let usersMap = getUserMap(users);
   let usersArray = ArrayLabels.of_list(users);
   let usersLiArMapper = user => <li> (RechatUtils.ste(user.name)) </li>;
   let usersLiArr = Array.map(usersLiArMapper, usersArray);
