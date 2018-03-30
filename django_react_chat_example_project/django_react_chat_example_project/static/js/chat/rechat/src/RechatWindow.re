@@ -58,6 +58,14 @@ type message = {
   text: string,
 };
 
+module StringMap = Map.Make(String);
+
+let getUserMap = (uzers: list(user)) => {
+  let userMapBuilder = (map, uzer: user) =>
+    StringMap.add(uzer.id, uzer, map);
+  List.fold_left(userMapBuilder, StringMap.empty, uzers);
+};
+
 module GroupQuery = [%graphql
   {|
 query GetChatGroup($chatGroupId: ID!){
@@ -145,31 +153,25 @@ let getChatGroupMessages = chatGroup =>
   | None => []
   };
 
-module StringMap = Map.Make(String);
-
-/* let getUserMap = (users: list(user)) => {
-     let buildUserMap = (map, user) => StringMap.add(user.id, user, map);
-     List.fold_left(buildUserMap, StringMap.empty, users);
-   }; */
-/* let renderMessages =  */
 let renderLoadedResult = result => {
   let chatGroup = result##chatGroup;
   Js.log(chatGroup);
   let users = getChatGroupUsers(chatGroup);
   let messages = getChatGroupMessages(chatGroup);
   Js.log(messages);
-  /* let usersMap = getUserMap(users); */
-  let usersArray = ArrayLabels.of_list(users);
+  let usersMap = getUserMap(users);
+  /* let usersArray = ArrayLabels.of_list(users); */
   let messagesArray = ArrayLabels.of_list(messages);
   /* let usersLiArMapper = user => <li> (RechatUtils.ste(user.name)) </li>; */
-  let usersLiArMapper = user => <li> (RechatUtils.ste(user.name)) </li>;
-  let messageLiArMapper = msg => <li> (RechatUtils.ste(msg.text)) </li>;
-  let usersLiArr = Array.map(usersLiArMapper, usersArray);
+  let messageLiArMapper = (msg: message) => {
+    let user = StringMap.find(msg.author.id, usersMap);
+    let msgStr = user.name ++ ": " ++ msg.text;
+    <li key=msg.id> (RechatUtils.ste(msgStr)) </li>;
+  };
+  /* let usersLiArr = Array.map(usersLiArMapper, usersArray); */
   let messageLiArr = Array.map(messageLiArMapper, messagesArray);
-  <div>
-    <ul> (ReasonReact.arrayToElement(usersLiArr)) </ul>
-    <ul> (ReasonReact.arrayToElement(messageLiArr)) </ul>
-  </div>;
+  <div> <ul> (ReasonReact.arrayToElement(messageLiArr)) </ul> </div>;
+  /* <ul> (ReasonReact.arrayToElement(usersLiArr)) </ul> */
 };
 
 module Query = RechatApollo.Instance.Query;
