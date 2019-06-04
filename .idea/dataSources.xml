@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="django_react_chat_example_project@localhost" uuid="04d6b8f0-e8ee-4842-93bd-d8374ec7ba85">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/django_react_chat_example_project</jdbc-url>
+    </data-source>
+  </component>
+</project>
