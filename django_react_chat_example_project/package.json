@@ -48,7 +48,7 @@
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
     "lodash.sortby": "^4.7.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.13.1",
     "react-avatar": "^2.5.1",
     "react-dom": "^16.2.0",
     "react-websocket": "^2.0.0",
